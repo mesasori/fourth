@@ -14,6 +14,8 @@ import com.example.fourth.BaseActivity
 import com.example.fourth.MainActivity
 import com.example.fourth.R
 import com.example.fourth.models.Constants
+import com.example.fourth.models.Constants.FIRESTORE_EMAIL
+import com.example.fourth.models.Constants.FIRESTORE_SURNAME
 import com.example.fourth.models.LoggedUserInfo
 import com.example.fourth.ui.settings.SettingsFragment
 import com.google.android.gms.tasks.OnCompleteListener
@@ -24,8 +26,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_authorization.*
 
 class Authorization : BaseActivity() {
-
-    var fields = "name"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,9 +80,10 @@ class Authorization : BaseActivity() {
                         FirebaseFirestore.getInstance().collection("users")
                                 .document(userId).get().addOnCompleteListener { data ->
                                     if (data.isSuccessful) {
-                                        userInfo = "${data.result?.getString("firstName")!!} " +
-                                                "${data.result?.getString("surname")} " +
-                                                "${data.result?.getString("email")}"
+                                        userInfo = "${data.result?.getString(Constants.FIRESTORE_NAME)} " +
+                                                "${data.result?.getString(FIRESTORE_SURNAME)} " +
+                                                "${data.result?.getString(FIRESTORE_EMAIL)}"
+                                        Toast.makeText(this, userInfo, Toast.LENGTH_LONG).show()
                                         editor.putString(Constants.USER_FULL_INFO, userInfo).apply()
                                     } else editor.putString(Constants.USER_FULL_INFO, "Error").apply()
                                 }

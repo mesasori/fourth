@@ -47,7 +47,6 @@
             android:background="@color/color_main"
             android:src="@drawable/ic_save"
             android:layout_marginEnd="5dp"
-            android:onClick="onClick"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -76,10 +75,10 @@
             app:layout_constraintVertical_bias="0.375">
 
             <ImageView
+                android:id="@+id/iv_edit_setImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/my_photo" />
+                android:scaleType="centerCrop" />
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

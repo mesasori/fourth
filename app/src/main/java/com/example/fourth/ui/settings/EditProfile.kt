@@ -1,29 +1,34 @@
 package com.example.fourth.ui.settings
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
-import android.provider.SyncStateContract
-import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.example.fourth.BaseActivity
 import com.example.fourth.MainActivity
 import com.example.fourth.R
 import com.example.fourth.models.Constants
+import com.example.fourth.models.Constants.FIRESTORE_BIRTH
+import com.example.fourth.models.Constants.FIRESTORE_IMAGE
+import com.example.fourth.models.Constants.FIRESTORE_NAME
+import com.example.fourth.models.Constants.FIRESTORE_PHONE
+import com.example.fourth.models.Constants.FIRESTORE_SURNAME
 import com.example.fourth.models.LoggedUserInfo
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import java.io.IOException
 
 class EditProfile : BaseActivity(), View.OnClickListener {
 
-    var myRef: SharedPreferences? = null
-    var userId: String? = null
     private var user: LoggedUserInfo ?= null
+    private var imageUri: Uri ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
@@ -33,9 +38,9 @@ class EditProfile : BaseActivity(), View.OnClickListener {
 
         et_editP_email.editText?.keyListener = null
 
-        myRef = application?.getSharedPreferences(Constants.KEY, Context.MODE_PRIVATE)
-        userId = myRef?.getString(Constants.USER_ID, "none")
         bt_backToSetting.setOnClickListener(this)
+        bt_saveEdited.setOnClickListener(this)
+        bt_editP_avatar.setOnClickListener(this)
 
     }
 
@@ -49,17 +54,62 @@ class EditProfile : BaseActivity(), View.OnClickListener {
                 finish()
             }
             R.id.bt_editP_avatar -> {
+                if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
 
+                    Constants.showImageChooser(this)
+
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                            Constants.READ_PERMISSIONS)
+                }
             }
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Constants.PICK_IMAGE_CODE) {
+                if (data != null) {
+                    try {
+                        imageUri = data.data!!
+                        iv_edit_setImage.setImageURI(imageUri)
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Toast.makeText(this, resources.getString(R.string.image_select_failed), Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Constants.READ_PERMISSIONS) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                showErrorSnackBar("Permission is granted", false)
+
+            else Toast.makeText(this, "Permission is denied. You can also apply it from settings", Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun saveInfo() {
-        val document = FirebaseFirestore.getInstance().collection("users").document(userId!!)
+        val document = FirebaseFirestore.getInstance().collection("users").document(user?.id!!)
         FirebaseFirestore.getInstance().runBatch { it ->
-            it.update(document, "surname", et_editP_surname.editText?.text.toString().trim{ it <= ' '})
-            it.update(document, "dateOfBirth", et_editP_birth.editText?.text.toString().trim{ it <= ' '})
-            it.update(document, "mobile", et_editP_phone.editText?.text.toString().trim{ it <= ' '})
-            it.update(document, "firstName", et_editP_name.editText?.text.toString().trim{ it <= ' '})
+            it.update(document, FIRESTORE_SURNAME, et_editP_surname.editText?.text.toString().trim{ it <= ' '})
+            it.update(document, FIRESTORE_BIRTH, et_editP_birth.editText?.text.toString().trim{ it <= ' '})
+            it.update(document, FIRESTORE_PHONE, et_editP_phone.editText?.text.toString().trim{ it <= ' '})
+            it.update(document, FIRESTORE_NAME, et_editP_name.editText?.text.toString().trim{ it <= ' '})
+            if (imageUri != null) {
+                it.update(document, FIRESTORE_IMAGE, imageUri.toString())
+                user?.image = imageUri.toString()
+            }
+
         }
         user?.name = et_editP_name.editText?.text.toString().trim{ it <= ' '}
         user?.surname = et_editP_surname.editText?.text.toString().trim{ it <= ' '}
@@ -67,6 +117,7 @@ class EditProfile : BaseActivity(), View.OnClickListener {
         user?.phone = et_editP_phone.editText?.text.toString().trim{ it <= ' '}
     }
     private fun filling(user: LoggedUserInfo) {
+        iv_edit_setImage.setImageURI(user.image?.toUri())
         et_editP_email.editText?.setText(user.email)
         et_editP_name.editText?.setText(user.name)
         et_editP_surname.editText?.setText(user.surname)

@@ -8,11 +8,13 @@ data class LoggedUserInfo(
         var name: String?,
         var surname: String?,
         var email: String?,
+        var image: String?,
         var password: String ?= "",
         var birth: String ?= "",
         var phone: String ?= ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+            parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
@@ -27,6 +29,7 @@ data class LoggedUserInfo(
         parcel.writeString(name)
         parcel.writeString(surname)
         parcel.writeString(email)
+        parcel.writeString(image)
         parcel.writeString(password)
         parcel.writeString(birth)
         parcel.writeString(phone)

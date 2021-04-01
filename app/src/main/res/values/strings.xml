@@ -25,4 +25,12 @@
     <string name="title_activity_navigation">NavigationActivity</string>
     <string name="title_activity_left_navigation">LeftNavigation</string>
     <string name="title_notifications">Notifications</string>
+    <string name="notifications">Notifications</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="language">Language</string>
+    <string name="send">Send</string>
+    <string name="cancel">Cancel</string>
+    <string name="support">Support</string>
+    <string name="enter_your_message">Enter your message</string>
+    <string name="image_select_failed">Fail in downloading. Please, try again</string>
 </resources>

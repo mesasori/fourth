@@ -7,18 +7,23 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.constraintlayout.solver.widgets.ConstraintWidget.VISIBLE
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import com.example.fourth.BaseActivity
 import com.example.fourth.R
 import com.example.fourth.activities.Authorization
 import com.example.fourth.models.Constants
+import com.example.fourth.models.Constants.FIRESTORE_BIRTH
+import com.example.fourth.models.Constants.FIRESTORE_EMAIL
+import com.example.fourth.models.Constants.FIRESTORE_IMAGE
+import com.example.fourth.models.Constants.FIRESTORE_NAME
+import com.example.fourth.models.Constants.FIRESTORE_PASSWORD
+import com.example.fourth.models.Constants.FIRESTORE_PHONE
+import com.example.fourth.models.Constants.FIRESTORE_SURNAME
 import com.example.fourth.models.LoggedUserInfo
-import com.example.fourth.models.User
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
@@ -38,24 +43,27 @@ class SettingsFragment : Fragment(), View.OnClickListener {
 
         root.bt_signOut.setOnClickListener(this)
         root.bt_editProfile.setOnClickListener(this)
+        root.bt_settings_support.setOnClickListener(this)
         root.tv_nameSurname.movementMethod = ScrollingMovementMethod()    //scroll the text view with full name
 
         myRef = activity?.getSharedPreferences(Constants.KEY, Context.MODE_PRIVATE)
         userId = myRef?.getString(Constants.USER_ID, "none")
 
-        root.lottie_constraint.visibility = View.VISIBLE
         FirebaseFirestore.getInstance().collection("users").document(userId!!).get().addOnCompleteListener {
             if (it.isSuccessful) {
                 user = LoggedUserInfo(
                         userId,
-                        it.result?.getString("firstName"),
-                        it.result?.getString("surname"),
-                        it.result?.getString("email"),
-                        it.result?.getString("password"),
-                        it.result?.getString("birth"),
-                        it.result?.getString("phone")
+                        it.result?.getString(FIRESTORE_NAME),
+                        it.result?.getString(FIRESTORE_SURNAME),
+                        it.result?.getString(FIRESTORE_EMAIL),
+                        it.result?.getString(FIRESTORE_IMAGE),
+                        it.result?.getString(FIRESTORE_PASSWORD),
+                        it.result?.getString(FIRESTORE_BIRTH),
+                        it.result?.getString(FIRESTORE_PHONE)
                 )
                 root.tv_nameSurname.text = user?.name + " " + user?.surname
+                root.iv_settings_avatar.setImageURI(user?.image?.toUri())
+                Toast.makeText(activity, user?.image, Toast.LENGTH_LONG).show()
             }
             else {
                 Toast.makeText(context, "Error, check Internet connection and restart me", 3000L.toInt()).show()
@@ -65,8 +73,6 @@ class SettingsFragment : Fragment(), View.OnClickListener {
 
         return root
     }
-
-
 
 
     override fun onClick(v: View?) {
@@ -82,6 +88,23 @@ class SettingsFragment : Fragment(), View.OnClickListener {
                 intent.putExtra("user", user)
                 startActivity(intent)
             }
+            R.id.bt_settings_not -> {}
+            R.id.bt_settings_support -> supportDialog()
         }
+    }
+
+    fun supportDialog() {
+        val includeLayout = this.layoutInflater.inflate(R.layout.support_dialog, null)
+        val dialog = MaterialAlertDialogBuilder(requireActivity())
+        dialog.setView(includeLayout)
+        val editText = includeLayout.findViewById<TextInputLayout>(R.id.support_message).editText?.text
+        dialog.setNegativeButton(resources.getString(R.string.cancel)) {
+            f, _ -> f.cancel()
+        }
+        dialog.setPositiveButton(resources.getString(R.string.send)) {
+            f, _ ->
+            Toast.makeText(context, editText.toString(), Toast.LENGTH_LONG).show()
+            f.cancel()
+        }.show()
     }
 }

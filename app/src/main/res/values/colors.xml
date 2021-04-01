@@ -19,8 +19,10 @@
     <color name="color_gray">#757575</color>
     <color name="color_black">#373737</color>
     <color name="color_green">#90D882</color>
+    <color name="light_gray">#C1C1C1</color>
 
     <color name="colorSnackBarError">#ff2400</color>
     <color name="colorSnackBarSuccess">#00ff00</color>
+
     
 </resources>

@@ -80,10 +80,10 @@
                 app:layout_constraintVertical_bias="0.2">
 
                 <ImageView
+                    android:id="@+id/iv_settings_avatar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_person" />
+                    android:scaleType="centerCrop" />
             </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
@@ -304,24 +304,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/materialButton"
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/bt_settings_not"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:theme="@style/CustomSwitcher"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:backgroundTint="@color/color_dark_white"
                     android:fontFamily="@font/montserrat_medium"
-                    android:paddingStart="20dp"
-                    android:text="Notifications"
+                    android:paddingLeft="20dp"
+                    android:text="@string/notifications"
+                    android:checked="true"
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
                     android:textColor="@color/color_dark"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    app:icon="@drawable/ic_navigate_next_24"
-                    app:iconGravity="end"
-
-                    app:iconTint="#B5B5B5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHeight_percent="0.33"
                     app:layout_constraintStart_toStartOf="parent"
@@ -348,18 +345,19 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHeight_percent="0.33"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialButton" />
+                    app:layout_constraintTop_toBottomOf="@+id/bt_settings_not" />
 
                 <View
                     android:id="@+id/view2"
                     android:layout_width="match_parent"
                     android:layout_height="0.7dp"
                     android:background="@color/icon_gray_next"
-                    app:layout_constraintBottom_toBottomOf="@+id/materialButton"
+                    app:layout_constraintBottom_toBottomOf="@+id/bt_settings_not"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <View
+                    android:id="@+id/view3"
                     android:layout_width="match_parent"
                     android:layout_height="0.7dp"
                     android:background="@color/icon_gray_next"
@@ -367,27 +365,64 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:backgroundTint="@color/color_dark_white"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:paddingStart="20dp"
-                    android:text="Language"
-                    android:textAlignment="textStart"
-                    android:textAllCaps="false"
-                    android:textColor="@color/color_dark"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:icon="@drawable/ic_navigate_next_24"
-                    app:iconGravity="end"
-                    app:iconTint="#B5B5B5"
-
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHeight_percent="0.33"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialButton2" />
+                    app:layout_constraintTop_toBottomOf="@+id/materialButton2">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/bt_settings_lang"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:backgroundTint="@color/color_dark_white"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:paddingStart="20dp"
+                        android:text="@string/language"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="false"
+                        android:textColor="@color/color_dark"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintWidth_percent="0.5"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RadioGroup
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical|end"
+                        app:layout_constraintWidth_percent="0.5"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rb_settings_rus"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_marginEnd="15dp"
+                            android:background="@drawable/language_selector"
+                            android:button="@drawable/ic_russia"/>
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rb_settings_eng"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_marginEnd="10dp"
+
+                            android:background="@drawable/language_selector"
+                            android:button="@drawable/ic_united_states" />
+
+                    </RadioGroup>
+                    
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -431,6 +466,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_settings_support"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

@@ -28,4 +28,9 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
+
+    <style name="CustomSwitcher" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:thumbTint">@color/custom_switcher_thumb</item>
+        <item name="trackTint">@color/custom_switcher_track</item>
+    </style>
 </resources>
