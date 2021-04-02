@@ -13,6 +13,7 @@ import androidx.core.net.toUri
 import com.example.fourth.BaseActivity
 import com.example.fourth.MainActivity
 import com.example.fourth.R
+import com.example.fourth.firebase.FirestoreClass
 import com.example.fourth.models.Constants
 import com.example.fourth.models.Constants.FIRESTORE_BIRTH
 import com.example.fourth.models.Constants.FIRESTORE_IMAGE
@@ -26,8 +27,10 @@ import java.io.IOException
 
 class EditProfile : BaseActivity(), View.OnClickListener {
 
+
     private var user: LoggedUserInfo ?= null
     private var imageUri: Uri ?= null
+    private var imageURL: String ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +78,7 @@ class EditProfile : BaseActivity(), View.OnClickListener {
                 if (data != null) {
                     try {
                         imageUri = data.data!!
+                        FirestoreClass().uploadImageToCloud(this, imageUri)
                         iv_edit_setImage.setImageURI(imageUri)
                     } catch (e: IOException) {
                         e.printStackTrace()
@@ -101,16 +105,13 @@ class EditProfile : BaseActivity(), View.OnClickListener {
     private fun saveInfo() {
         val document = FirebaseFirestore.getInstance().collection("users").document(user?.id!!)
         FirebaseFirestore.getInstance().runBatch { it ->
-            it.update(document, FIRESTORE_SURNAME, et_editP_surname.editText?.text.toString().trim{ it <= ' '})
-            it.update(document, FIRESTORE_BIRTH, et_editP_birth.editText?.text.toString().trim{ it <= ' '})
-            it.update(document, FIRESTORE_PHONE, et_editP_phone.editText?.text.toString().trim{ it <= ' '})
-            it.update(document, FIRESTORE_NAME, et_editP_name.editText?.text.toString().trim{ it <= ' '})
-            if (imageUri != null) {
-                it.update(document, FIRESTORE_IMAGE, imageUri.toString())
-                user?.image = imageUri.toString()
-            }
-
+            it.update(document, FIRESTORE_SURNAME, et_editP_surname.editText?.text.toString().trim { it <= ' ' })
+            it.update(document, FIRESTORE_BIRTH, et_editP_birth.editText?.text.toString().trim { it <= ' ' })
+            it.update(document, FIRESTORE_PHONE, et_editP_phone.editText?.text.toString().trim { it <= ' ' })
+            it.update(document, FIRESTORE_NAME, et_editP_name.editText?.text.toString().trim { it <= ' ' })
+            it.update(document, FIRESTORE_IMAGE, imageURL)
         }
+        user?.image = imageURL.toString()
         user?.name = et_editP_name.editText?.text.toString().trim{ it <= ' '}
         user?.surname = et_editP_surname.editText?.text.toString().trim{ it <= ' '}
         user?.birth = et_editP_birth.editText?.text.toString().trim{ it <= ' '}
@@ -123,5 +124,10 @@ class EditProfile : BaseActivity(), View.OnClickListener {
         et_editP_surname.editText?.setText(user.surname)
         et_editP_birth.editText?.setText(user.birth)
         et_editP_phone.editText?.setText(user.phone)
+    }
+
+    fun uploadImage(url: String) {
+        imageURL = url
+        Toast.makeText(this, imageURL, Toast.LENGTH_LONG).show()
     }
 }

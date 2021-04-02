@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.fourth.R
 import com.example.fourth.activities.Authorization
 import com.example.fourth.models.Constants
@@ -27,6 +28,10 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class SettingsFragment : Fragment(), View.OnClickListener {
@@ -49,9 +54,10 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         myRef = activity?.getSharedPreferences(Constants.KEY, Context.MODE_PRIVATE)
         userId = myRef?.getString(Constants.USER_ID, "none")
 
-        FirebaseFirestore.getInstance().collection("users").document(userId!!).get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                user = LoggedUserInfo(
+        CoroutineScope(Dispatchers.IO).launch {
+            FirebaseFirestore.getInstance().collection("users").document(userId!!).get().addOnCompleteListener {
+                if (it.isSuccessful) {
+                    user = LoggedUserInfo(
                         userId,
                         it.result?.getString(FIRESTORE_NAME),
                         it.result?.getString(FIRESTORE_SURNAME),
@@ -60,13 +66,14 @@ class SettingsFragment : Fragment(), View.OnClickListener {
                         it.result?.getString(FIRESTORE_PASSWORD),
                         it.result?.getString(FIRESTORE_BIRTH),
                         it.result?.getString(FIRESTORE_PHONE)
-                )
-                root.tv_nameSurname.text = user?.name + " " + user?.surname
-                root.iv_settings_avatar.setImageURI(user?.image?.toUri())
-                Toast.makeText(activity, user?.image, Toast.LENGTH_LONG).show()
-            }
-            else {
-                Toast.makeText(context, "Error, check Internet connection and restart me", 3000L.toInt()).show()
+                    )
+                    root.tv_nameSurname.text = user?.name + " " + user?.surname
+                    Glide.with(requireActivity()).load(user?.image).into(root.iv_settings_avatar)
+                    root.animation_lottie.visibility = View.INVISIBLE
+                }
+                else {
+                    Toast.makeText(context, "Error, check Internet connection and restart me", 3000L.toInt()).show()
+                }
             }
         }
 

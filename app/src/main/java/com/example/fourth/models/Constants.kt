@@ -2,7 +2,9 @@ package com.example.fourth.models
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.provider.MediaStore
+import android.webkit.MimeTypeMap
 
 object Constants {
     const val USERS = "users"
@@ -18,9 +20,15 @@ object Constants {
     const val FIRESTORE_PASSWORD = "password"
     const val FIRESTORE_BIRTH = "birth"
     const val FIRESTORE_IMAGE = "image"
+    const val CLOUD_IMAGE = "user_profile_image"
+
+    const val DATABASE_MESSAGES = "messages"
+    const val DATABASE_MESSAGES_USER = "user"
 
     fun showImageChooser(activity: Activity) {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         activity.startActivityForResult(galleryIntent, Constants.PICK_IMAGE_CODE)
     }
+
+    fun getFileExtension(activity: Activity, uri: Uri?) = MimeTypeMap.getSingleton().getExtensionFromMimeType(activity.contentResolver.getType(uri!!))
 }
