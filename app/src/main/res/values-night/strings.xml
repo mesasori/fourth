@@ -3,4 +3,6 @@
     <string name="cancel">Cancel</string>
     <string name="support">Support</string>
     <string name="image_select_failed">Fail in downloading. Please, try again</string>
+    <string name="messages">Messages</string>
+    <string name="friends">Friends</string>
 </resources>

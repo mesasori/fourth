@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 import com.example.fourth.BaseActivity
 import com.example.fourth.MainActivity
 import com.example.fourth.R
@@ -23,6 +24,7 @@ import com.example.fourth.models.Constants.FIRESTORE_SURNAME
 import com.example.fourth.models.LoggedUserInfo
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.fragment_settings.view.*
 import java.io.IOException
 
 class EditProfile : BaseActivity(), View.OnClickListener {
@@ -79,7 +81,6 @@ class EditProfile : BaseActivity(), View.OnClickListener {
                     try {
                         imageUri = data.data!!
                         FirestoreClass().uploadImageToCloud(this, imageUri)
-                        iv_edit_setImage.setImageURI(imageUri)
                     } catch (e: IOException) {
                         e.printStackTrace()
                         Toast.makeText(this, resources.getString(R.string.image_select_failed), Toast.LENGTH_LONG).show()
@@ -109,16 +110,18 @@ class EditProfile : BaseActivity(), View.OnClickListener {
             it.update(document, FIRESTORE_BIRTH, et_editP_birth.editText?.text.toString().trim { it <= ' ' })
             it.update(document, FIRESTORE_PHONE, et_editP_phone.editText?.text.toString().trim { it <= ' ' })
             it.update(document, FIRESTORE_NAME, et_editP_name.editText?.text.toString().trim { it <= ' ' })
-            it.update(document, FIRESTORE_IMAGE, imageURL)
+            if (imageURL != null ) {
+                it.update(document, FIRESTORE_IMAGE, imageURL)
+                user?.image = imageURL.toString()
+            }
         }
-        user?.image = imageURL.toString()
         user?.name = et_editP_name.editText?.text.toString().trim{ it <= ' '}
         user?.surname = et_editP_surname.editText?.text.toString().trim{ it <= ' '}
         user?.birth = et_editP_birth.editText?.text.toString().trim{ it <= ' '}
         user?.phone = et_editP_phone.editText?.text.toString().trim{ it <= ' '}
     }
     private fun filling(user: LoggedUserInfo) {
-        iv_edit_setImage.setImageURI(user.image?.toUri())
+        Glide.with(this).load(user.image).into(iv_edit_setImage)
         et_editP_email.editText?.setText(user.email)
         et_editP_name.editText?.setText(user.name)
         et_editP_surname.editText?.setText(user.surname)

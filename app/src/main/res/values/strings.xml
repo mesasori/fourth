@@ -33,4 +33,6 @@
     <string name="support">Support</string>
     <string name="enter_your_message">Enter your message</string>
     <string name="image_select_failed">Fail in downloading. Please, try again</string>
+    <string name="messages">Messages</string>
+    <string name="friends">Friends</string>
 </resources>

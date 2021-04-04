@@ -25,11 +25,10 @@ import com.example.fourth.models.Constants.FIRESTORE_SURNAME
 import com.example.fourth.models.LoggedUserInfo
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -52,9 +51,9 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         root.tv_nameSurname.movementMethod = ScrollingMovementMethod()    //scroll the text view with full name
 
         myRef = activity?.getSharedPreferences(Constants.KEY, Context.MODE_PRIVATE)
-        userId = myRef?.getString(Constants.USER_ID, "none")
+        userId = FirebaseAuth.getInstance().currentUser!!.uid
 
-        CoroutineScope(Dispatchers.IO).launch {
+        GlobalScope.launch {
             FirebaseFirestore.getInstance().collection("users").document(userId!!).get().addOnCompleteListener {
                 if (it.isSuccessful) {
                     user = LoggedUserInfo(
