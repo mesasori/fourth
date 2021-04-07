@@ -22,6 +22,7 @@ object Constants {
     const val FIRESTORE_IMAGE = "image"
     const val CLOUD_IMAGE = "user_profile_image"
 
+    const val DATABASE_FRIENDS = "friends"
     const val DATABASE_MESSAGES = "messages"
     const val DATABASE_MESSAGES_USER = "user"
 

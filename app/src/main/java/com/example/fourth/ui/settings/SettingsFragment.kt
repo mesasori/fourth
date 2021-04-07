@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.fourth.R
@@ -27,7 +26,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -48,6 +46,8 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         root.bt_signOut.setOnClickListener(this)
         root.bt_editProfile.setOnClickListener(this)
         root.bt_settings_support.setOnClickListener(this)
+        root.bt_friends.setOnClickListener(this)
+
         root.tv_nameSurname.movementMethod = ScrollingMovementMethod()    //scroll the text view with full name
 
         myRef = activity?.getSharedPreferences(Constants.KEY, Context.MODE_PRIVATE)
@@ -96,6 +96,9 @@ class SettingsFragment : Fragment(), View.OnClickListener {
             }
             R.id.bt_settings_not -> {}
             R.id.bt_settings_support -> supportDialog()
+            R.id.bt_friends -> {
+                startActivity(Intent(activity, FriendsActivity::class.java))
+            }
         }
     }
 
