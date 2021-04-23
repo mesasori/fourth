@@ -6,9 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.example.fourth.BaseActivity
 import com.example.fourth.MainActivity
 import com.example.fourth.R
 import com.example.fourth.models.Constants
+import com.example.fourth.ui.settings.FriendsActivity
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -27,17 +29,8 @@ class SplashScreen : Activity() {
         val usersList = mutableListOf<String>()
         if(myRef.contains(Constants.USER_ID)) {
             val intent = Intent(this@SplashScreen, MainActivity::class.java)
-            FirebaseFirestore.getInstance().collection("users")
-                .get()
-                .addOnSuccessListener { result ->
-                    for ((i, document) in result.withIndex()) {
-                        usersList.add(document.id)
-                        Log.d(TAG, "${document.id} = ${document.toString()}")
-                    }
-                    Log.d("ABOBA!", usersList.joinToString(" "))
-                }
-            //startActivity(intent)
-            //finish()
+            startActivity(intent)
+            finish()
         } else {
             val intent = Intent(this@SplashScreen, Authorization::class.java)
             startActivity(intent)

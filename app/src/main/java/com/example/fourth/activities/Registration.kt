@@ -7,15 +7,20 @@ import android.view.View
 import com.example.fourth.BaseActivity
 import com.example.fourth.R
 import com.example.fourth.firebase.FirestoreClass
+import com.example.fourth.models.Constants
 import com.example.fourth.models.LoggedUserInfo
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_registration.*
 
 class Registration : BaseActivity() {
     private lateinit var firebaseUser: FirebaseUser
+    private lateinit var myDatabase: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +59,10 @@ class Registration : BaseActivity() {
                                 email_registration.text.toString(), "",
                                 password_registration.text.toString()
                             )
+                            myDatabase = Firebase.database.reference
+                            myDatabase.child(Constants.DATABASE_USERS).child(user.id!!).setValue(true)
                             FirestoreClass().registerUser(this@Registration, user)
+
                             hideProgressDialog(animation_lottie)
 
                         } else {
@@ -82,7 +90,7 @@ class Registration : BaseActivity() {
 
     }
     fun userRegistrationFailed() {
-        showErrorSnackBar("Ошибка во врeмя ригистрации", true)
+        showErrorSnackBar("Ошибка во врeмя регистрации", true)
     }
 
 

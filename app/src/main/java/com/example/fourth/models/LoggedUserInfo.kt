@@ -4,11 +4,11 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class LoggedUserInfo(
-        var id: String?,
-        var name: String?,
-        var surname: String?,
-        var email: String?,
-        var image: String?,
+        var id: String? = "",
+        var name: String? = "",
+        var surname: String? = "",
+        var email: String? = "",
+        var image: String? = "",
         var password: String ?= "",
         var birth: String ?= "",
         var phone: String ?= ""

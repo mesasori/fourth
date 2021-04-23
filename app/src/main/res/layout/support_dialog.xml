@@ -26,7 +26,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="aboba"
+            android:text=""
             android:fontFamily="@font/montserrat_medium"/>
     </com.google.android.material.textfield.TextInputLayout>
 

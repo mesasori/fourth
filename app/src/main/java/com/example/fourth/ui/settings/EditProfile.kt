@@ -22,7 +22,9 @@ import com.example.fourth.models.Constants.FIRESTORE_NAME
 import com.example.fourth.models.Constants.FIRESTORE_PHONE
 import com.example.fourth.models.Constants.FIRESTORE_SURNAME
 import com.example.fourth.models.LoggedUserInfo
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import java.io.IOException
@@ -119,6 +121,7 @@ class EditProfile : BaseActivity(), View.OnClickListener {
         user?.surname = et_editP_surname.editText?.text.toString().trim{ it <= ' '}
         user?.birth = et_editP_birth.editText?.text.toString().trim{ it <= ' '}
         user?.phone = et_editP_phone.editText?.text.toString().trim{ it <= ' '}
+        Firebase.database.reference.child(Constants.DATABASE_USERS).child(user?.id!!).setValue(user)
     }
     private fun filling(user: LoggedUserInfo) {
         Glide.with(this).load(user.image).into(iv_edit_setImage)

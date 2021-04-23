@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/bt_backToSetting"
+            android:id="@+id/bt_backToSettings_fromFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -42,25 +42,50 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        tools:listitem="@layout/friends_recycler_view"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
-    </ScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/animation_lottie_friends"
+        app:cardCornerRadius="20dp"
+        android:background="#BF222222"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:visibility="invisible"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:lottie_rawRes="@raw/loading"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        />
+    </com.google.android.material.card.MaterialCardView>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/bt_create_new_dialog"
+        android:id="@+id/bt_findFriend"
         style="MaterialButtonCircleWithCustomIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="25dp"
         android:backgroundTint="@color/color_red"
-        android:src="@drawable/ic_baseline_edit_24"
+        android:src="@drawable/ic_baseline_person_add_24"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

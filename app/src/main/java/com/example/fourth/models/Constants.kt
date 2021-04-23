@@ -23,8 +23,11 @@ object Constants {
     const val CLOUD_IMAGE = "user_profile_image"
 
     const val DATABASE_FRIENDS = "friends"
+    const val DATABASE_ID = "id"
     const val DATABASE_MESSAGES = "messages"
-    const val DATABASE_MESSAGES_USER = "user"
+    const val DATABASE_USERS = "users"
+
+    const val EXTRAS_USERS = "userList"
 
     fun showImageChooser(activity: Activity) {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
