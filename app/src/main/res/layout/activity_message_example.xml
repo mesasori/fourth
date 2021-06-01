@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.messages.MessageExample">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/animation_lottie"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="#BF222222"
+        app:cardCornerRadius="20dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/color_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            app:cardCornerRadius="50dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/back_to_message"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/avatar_message"
+                android:layout_width="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_height="match_parent" />
+        </androidx.cardview.widget.CardView>
+
+        <ImageButton
+            android:id="@+id/back_to_message"
+            android:layout_width="30dp"
+            android:background="@color/color_main"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back_to"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/name_message"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="bottom"
+            android:text="Name"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/surname_message"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Surname"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintStart_toEndOf="@+id/cardView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:endIconDrawable="@drawable/ic_baseline_send_24"
+        app:endIconMode="custom"
+        app:endIconTint="@color/color_main"
+        app:boxBackgroundColor="@color/light_gray"
+        android:hint="@string/enter_your_message"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_messages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout7"
+        tools:listitem="@layout/view_messages" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

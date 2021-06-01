@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="230dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginHorizontal="20dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout8"
+                android:layout_width="match_parent"
+                android:layout_height="79dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="10dp"
+                    app:cardCornerRadius="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/task_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@color/color_main_light"
+                        android:scaleType="centerCrop" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/task_title"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="Test 2"
+                    android:textColor="@color/color_main"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/lastMessage_message"
+                    android:layout_width="60dp"
+                    android:layout_height="25dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="Before:"
+                    android:textColor="@color/color_gray"
+                    app:layout_constraintStart_toEndOf="@+id/cardView2"
+                    app:layout_constraintTop_toBottomOf="@+id/task_title" />
+
+                <TextView
+                    android:id="@+id/task_date"
+                    android:layout_width="wrap_content"
+                    android:text="21 October"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="@color/color_main"
+                    app:layout_constraintBottom_toBottomOf="@+id/lastMessage_message"
+                    app:layout_constraintEnd_toStartOf="@+id/task_time"
+                    app:layout_constraintStart_toEndOf="@+id/lastMessage_message"
+                    app:layout_constraintTop_toTopOf="@+id/lastMessage_message" />
+
+                <TextView
+                    android:id="@+id/task_time"
+                    android:layout_width="50dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="00:00"
+                    android:textColor="@color/color_main"
+                    app:layout_constraintBottom_toBottomOf="@+id/lastMessage_message"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/lastMessage_message" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/task_briefly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="It's your first task"
+                android:textColor="@color/color_main"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
+
+            <TextView
+                android:id="@+id/task_description"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:padding="3dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginHorizontal="10dp"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In lectus turpis, rutrum eu eleifend sit amet, auctor in dui. Cras iaculis rhoncus quam, ut varius quam commodo ut. Vivamus eget nunc leo. Aliquam fermentum nulla at interdum condimentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam condimentum, arcu ut imperdiet "
+                android:textColor="@color/color_main_light"
+                android:maxLines="5"
+                android:ellipsize="end"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
+

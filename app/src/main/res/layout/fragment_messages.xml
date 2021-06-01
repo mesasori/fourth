@@ -5,6 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.messages.MessagesFragment">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/animation_lottie"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="#BF222222"
+        app:cardCornerRadius="20dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
+    </com.google.android.material.card.MaterialCardView>
 
     <FrameLayout
         android:id="@+id/frameLayout2"
@@ -40,6 +59,18 @@
         app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_chats"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="110dp"
+        android:layout_marginBottom="56dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/view_last_message"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout2" />
+
 
     <View
         android:id="@+id/view"

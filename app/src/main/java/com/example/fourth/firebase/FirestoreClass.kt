@@ -23,7 +23,7 @@ class FirestoreClass {
 
     fun registerUser(activity: Registration, info: LoggedUserInfo) {
         Firebase.database.reference.child(Constants.DATABASE_USERS).child(info.id!!).setValue(info)
-        Firebase.database.reference.child(Constants.DATABASE_FRIENDS).child(info.id!!).child(adminUser.id).setValue(adminUser)
+        Firebase.database.reference.child(Constants.DATABASE_FRIENDS).child(info.id!!).child(adminUser.id!!).setValue(adminUser)
         myFireStore.collection("users")
             .document(info.id!!)
             .set(info, SetOptions.merge())

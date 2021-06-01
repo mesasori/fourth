@@ -76,7 +76,7 @@ class FriendsActivity : AppCompatActivity(), View.OnClickListener {
         val message = v.bt_friends_send
         val remove = v.bt_friends_remove
     }
-    fun initRecyclerView() {
+    fun initRecyclerView()  {
         animation_lottie_friends.visibility = View.VISIBLE
         recyclerView = findViewById(R.id.recyclerView)
         refFriends = Firebase.database.reference.child(Constants.DATABASE_FRIENDS).child(FirebaseAuth.getInstance().currentUser!!.uid)
@@ -93,7 +93,7 @@ class FriendsActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun onBindViewHolder(holder: FriendsHolder, position: Int, model: FriendsUser) {
-                if (model.surname.isEmpty()) {
+                if (model.surname!!.isEmpty()) {
                     holder.surname.text = model.name
                     holder.name.text = "Of your app"
                 }
@@ -103,12 +103,12 @@ class FriendsActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 Glide.with(this@FriendsActivity).load(model.image).into(holder.image)
                 holder.message.setOnClickListener {
-                    supportDialog(model.name)
+                    supportDialog(model.name!!)
                 }
                 holder.remove.setOnClickListener {
                     if (model.id != "JShxl9yhuNgguhfWx0IqmRq390K2") {
-                        Firebase.database.reference.child(Constants.DATABASE_FRIENDS).child(FirebaseAuth.getInstance().currentUser!!.uid).child(model.id).removeValue()
-                        Firebase.database.reference.child(Constants.DATABASE_FRIENDS).child(model.id).child(FirebaseAuth.getInstance().currentUser!!.uid).removeValue()
+                        Firebase.database.reference.child(Constants.DATABASE_FRIENDS).child(FirebaseAuth.getInstance().currentUser!!.uid).child(model.id!!).removeValue()
+                        Firebase.database.reference.child(Constants.DATABASE_FRIENDS).child(model.id!!).child(FirebaseAuth.getInstance().currentUser!!.uid).removeValue()
                     }
                     else Toast.makeText(this@FriendsActivity, "You can't remove administrator from friends", Toast.LENGTH_LONG).show()
                 }
@@ -161,7 +161,7 @@ class FriendsActivity : AppCompatActivity(), View.OnClickListener {
                         i.child(FIRESTORE_NAME).value.toString(),
                         i.child(FIRESTORE_SURNAME).value.toString(),
                         i.child(FIRESTORE_IMAGE).value.toString())
-                    mapFriends[friend.id] = friend
+                    mapFriends[friend.id!!] = friend
                 }
                 getUsersList(mapFriends)
             }

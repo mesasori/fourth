@@ -17,7 +17,8 @@ import kotlinx.android.synthetic.main.users_recycler_view.view.*
 
 class UsersAdapter(
         private val usersList: MutableList<FriendsUser>,
-        private val activity: Activity, private val currentUser: FriendsUser
+        private val activity: Activity,
+        private val currentUser: FriendsUser,
         ): RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersViewHolder {
@@ -36,18 +37,17 @@ class UsersAdapter(
         holder.addButton?.setOnClickListener{
             if (!state) {
                 Firebase.database.reference.child(DATABASE_FRIENDS)
-                    .child(profileId).child(currentItem.id).setValue(currentItem)
+                    .child(profileId).child(currentItem.id!!).setValue(currentItem)
                 Firebase.database.reference.child(DATABASE_FRIENDS)
-                    .child(currentItem.id).child(profileId).setValue(currentUser)
+                    .child(currentItem.id!!).child(profileId).setValue(currentUser)
                 holder.addButton.setIconResource(R.drawable.ic_baseline_check_24)
                 state = true
             }
             else {
                 Firebase.database.reference.child(DATABASE_FRIENDS)
-                    .child(profileId).child(currentItem.id).removeValue()
+                    .child(profileId).child(currentItem.id!!).removeValue()
                 Firebase.database.reference.child(DATABASE_FRIENDS)
-                    .child(currentItem.id).child(profileId).removeValue()
-
+                    .child(currentItem.id!!).child(profileId).removeValue()
 
                 holder.addButton.setIconResource(R.drawable.ic_baseline_person_add_24)
                 state = false
@@ -56,10 +56,6 @@ class UsersAdapter(
     }
 
     override fun getItemCount() = usersList.size
-
-    override fun getItemId(position: Int): Long {
-        return super.getItemId(position)
-    }
 
     class UsersViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val userImage: ImageView ?= itemView.iv_user_avatar
