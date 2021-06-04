@@ -1,5 +1,6 @@
 package com.example.fourth.ui.messages
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.example.fourth.models.Constants.DATABASE_USERS
 import com.example.fourth.models.FriendsUser
 import com.example.fourth.models.MessageInfo
 import com.example.fourth.ui.settings.FriendsActivity
+import com.example.fourth.ui.tasks.support.CreateTask
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -42,10 +44,14 @@ class MessageExample : AppCompatActivity(), View.OnClickListener {
         getter = intent.extras?.getParcelable<FriendsUser>("getter")!!
         currentId = FirebaseAuth.getInstance().currentUser!!.uid
 
+
+
         initRecyclerView()
 
         fillingToolbar()
         initListeners()
+
+        newTask.setOnClickListener(this)
 
     }
 
@@ -169,6 +175,11 @@ class MessageExample : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.back_to_message -> onBackPressed()
+            R.id.newTask -> {
+                val intent = Intent(this, CreateTask::class.java)
+                intent.putExtra("to", getter)
+                startActivity(intent)
+            }
         }
     }
 }

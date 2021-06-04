@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fourth">
+        <activity android:name=".ui.tasks.support.CreateTask"></activity>
         <activity
             android:name=".ui.messages.MessageExample"
             android:screenOrientation="portrait"

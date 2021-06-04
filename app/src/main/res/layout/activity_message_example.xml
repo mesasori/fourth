@@ -92,24 +92,34 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <ImageButton
+        android:id="@+id/newTask"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:backgroundTint="@color/light_gray"
+        android:src="@drawable/ic_baseline_add_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/message"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:hint="@string/enter_your_message"
+        app:boxBackgroundColor="@color/light_gray"
         app:endIconDrawable="@drawable/ic_baseline_send_24"
         app:endIconMode="custom"
         app:endIconTint="@color/color_main"
-        app:boxBackgroundColor="@color/light_gray"
-        android:hint="@string/enter_your_message"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toEndOf="@+id/newTask">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_messages"

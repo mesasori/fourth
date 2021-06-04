@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +47,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         root.bt_editProfile.setOnClickListener(this)
         root.bt_settings_support.setOnClickListener(this)
         root.bt_friends.setOnClickListener(this)
+        root.changePassword.setOnClickListener(this)
 
         root.tv_nameSurname.movementMethod = ScrollingMovementMethod()    //scroll the text view with full name
 
@@ -100,7 +100,42 @@ class SettingsFragment : Fragment(), View.OnClickListener {
             R.id.bt_friends -> {
                 startActivity(Intent(activity, FriendsActivity::class.java))
             }
+            R.id.changePassword -> {
+                changePassword()
+            }
         }
+    }
+
+    private fun changePassword() {
+        val includeLayout = this.layoutInflater.inflate(R.layout.support_dialog, null)
+        val dialog = MaterialAlertDialogBuilder(requireActivity())
+        dialog.setView(includeLayout)
+
+        val textLayout = includeLayout.findViewById<TextInputLayout>(R.id.support_message)
+        textLayout.hint = "Enter your email"
+        val editText = textLayout.editText?.text
+
+
+        dialog.setNegativeButton(resources.getString(R.string.cancel)) { f, _ ->
+            f.cancel()
+        }
+        dialog.setPositiveButton(resources.getString(R.string.send)) { f, _ ->
+            FirebaseAuth.getInstance().sendPasswordResetEmail(editText.toString())
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) Toast.makeText(
+                        requireContext(),
+                        "Check this email to reset passwort",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    else Toast.makeText(
+                        requireContext(),
+                        "Something went wrong(",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            f.cancel()
+
+        }.show()
     }
 
     fun supportDialog() {
@@ -113,7 +148,19 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         }
         dialog.setPositiveButton(resources.getString(R.string.send)) {
             f, _ ->
-            Toast.makeText(context, editText.toString(), Toast.LENGTH_LONG).show()
+
+            val to = "nigmatullin1441@gmail.com"
+            val title = "Support"
+
+            val email = Intent(Intent.ACTION_SEND)
+
+            email.putExtra(Intent.EXTRA_EMAIL, to)
+            email.putExtra(Intent.EXTRA_SUBJECT, title)
+            email.putExtra(Intent.EXTRA_TEXT, editText.toString())
+            email.setType("message/rfc822")
+            startActivity(Intent.createChooser(email, "Выберите email клиент :"))
+
+            Toast.makeText(context, "Thanks for message", Toast.LENGTH_LONG).show()
             f.cancel()
         }.show()
     }
